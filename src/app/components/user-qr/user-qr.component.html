@@ -1,0 +1,17 @@
+<div>
+    <input type="text" placeholder="Search by Employee email" [(ngModel)]="searchText" (input)="onSearch()" />
+  
+    <table *ngIf="filteredUsers.length > 0">
+      <tr *ngFor="let user of filteredUsers">
+        <td>
+          <input type="checkbox" [(ngModel)]="user.isSelected" />
+        </td>
+        <td>{{ user.email }}</td>
+        <!-- <td>{{ user.Ar_Full_Name }}</td> -->
+      </tr>
+    </table>
+  
+    <!-- <div *ngIf="filteredUsers.some(user => user.isSelected)">
+      <button (click)="generateQrCodes()">Generate QR Codes</button>
+    </div> -->
+  </div>

@@ -1,0 +1,30 @@
+<form action="" [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <p-card header="Food cupon" [style]="{width:'360px'}">
+        <div class="field">
+            <label for="email">email</label>
+            <input type="text" pInputText formControlName="email" class="w-full" name="email" placeholder="type your email"/>
+            <small *ngIf="email.invalid && (email.dirty) || email.touched" class="block p-error">
+                <div *ngIf="email.errors?.['required']">Email is required</div>
+                <div  *ngIf="email.errors?.['email']">Invalid Email</div>
+            </small>
+        </div>
+        <div class="field">
+            <label for="email">Password</label>
+            <input type="password" pInputText formControlName="password" class="w-full" name="passwrd" placeholder="type your email"/>
+            <small *ngIf="password.invalid && (email.dirty) || password.touched" class="block p-error">
+                <div *ngIf="email.errors?.['required']">Password is required</div>
+            </small>
+        </div>
+        <p-button 
+        label="Login"
+        styleClass="w-full"
+        
+        type="submit"/> 
+        <!-- <p-button label="Login" />  -->
+        <!-- grb shil el class da w a3mlha anta fl center shof msh shghala leh -->
+    </p-card>
+    
+</form>
+
+
+<!-- disabled="loginForm.invalid" -->

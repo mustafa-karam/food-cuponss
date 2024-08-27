@@ -1,5 +1,5 @@
 export interface scannedUser {
-    name:string,
-    id :string,
+    EmployeeId:any,
+    FullName:any,
     
 }

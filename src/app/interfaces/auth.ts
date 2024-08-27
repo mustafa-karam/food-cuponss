@@ -1,5 +1,5 @@
 export interface User {
-    id :string,
-    emai:string,
-    password:string
+    employeeId :number,
+    arFullName:string,
+    isSelected:boolean
 }

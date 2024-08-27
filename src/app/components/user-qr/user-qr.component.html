@@ -1,17 +1,98 @@
-<div>
-    <input type="text" placeholder="Search by Employee email" [(ngModel)]="searchText" (input)="onSearch()" />
-  
-    <table *ngIf="filteredUsers.length > 0">
-      <tr *ngFor="let user of filteredUsers">
-        <td>
-          <input type="checkbox" [(ngModel)]="user.isSelected" />
-        </td>
-        <td>{{ user.email }}</td>
-        <!-- <td>{{ user.Ar_Full_Name }}</td> -->
-      </tr>
-    </table>
-  
-    <!-- <div *ngIf="filteredUsers.some(user => user.isSelected)">
-      <button (click)="generateQrCodes()">Generate QR Codes</button>
-    </div> -->
+<div
+  class="container align-items-center"
+  style="margin-bottom: 50px; padding-top: 50px"
+>
+  <div class="image">
+    <img src="../../../assets/images/image1.jpg" alt="eva" />
   </div>
+
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <input
+        class="search-bar px-5"
+        type="text"
+        placeholder="Search by Employee email"
+        [(ngModel)]="searchText"
+        (input)="onSearch()"
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div
+      class="col px-5"
+      style="
+        overflow: auto;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        background-color: #bca54e;
+        border-radius: 10px;
+      "
+    >
+      <table class="emp-table" *ngIf="filteredUsers.length > 0">
+        <tr *ngFor="let user of filteredUsers">
+          <td>
+            <input
+              class="larger-checkbox"
+              type="checkbox"
+              [(ngModel)]="user.isSelected"
+              (change)="onCheckboxChange(user)"
+            />
+          </td>
+          <td
+            style="height: 30px; width: 200px; text-align: center"
+            (click)="onCheckboxChange(user)"
+          >
+            {{ user.ar_Full_Name }}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="isAnyUserSelected()" class="mt-5">
+    <h3 class="d-flex justify-content-center mb-3">
+      Selected Employees Preview
+    </h3>
+    <div class="row table-preview">
+      <table class="col px-5">
+        <thead>
+          <tr class="preview-head d-flex justify-content-between px-4">
+            <td style="margin-left: 10px"><strong>Id</strong></td>
+            <td style="margin-left: 80px"><strong>Name</strong></td>
+            <td><strong>isChecked</strong></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            style="margin-bottom: 5px"
+            class="d-flex justify-content-between px-4"
+            *ngFor="let user of selectedUsers"
+          >
+            <td>
+              {{ user.employeeId }}
+            </td>
+            <td>
+              {{ user.ar_Full_Name }}
+            </td>
+            <td>
+              <input
+                class="larger-checkbox"
+                type="checkbox"
+                [(ngModel)]="user.isSelected"
+                (change)="onCheckboxChange(user)"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="my-4" *ngIf="isAnyUserSelected">
+      <p-button
+        label="Generate QR code(s)"
+        class="d-flex justify-content-center"
+        (onClick)="generateQrCodes()"
+      />
+    </div>
+  </div>
+</div>

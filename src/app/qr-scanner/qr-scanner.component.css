@@ -1,6 +1,130 @@
-.scanner {
-  width: 800px;
+/* Base Styles */
+.logo-container {
+  text-align: center;
+  margin: 20px 0;
+  width: 150px;
+  height: 60px;
 }
-.s-container {
-  background-color: tomato;
+
+.logo-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.containers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+}
+
+.scanner {
+  width: 100%;
+  max-width: 500px; /* Limit the maximum width of the QR code scanner */
+  margin: 20px 0;
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 1.2em;
+  margin: 20px 0;
+}
+
+.scanner-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.camera-icon {
+  width: 50px;
+  height: 50px;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.confirm-btn,
+.cancel-btn {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.confirm-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .logo-container img {
+    max-width: 80%;
+  }
+
+  .scanner {
+    max-width: 300px;
+  }
+
+  .scanner-btn {
+    width: 40%;
+    margin: 10px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-content {
+    width: 90%;
+  }
+
+  .camera-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .loading-text {
+    font-size: 1em;
+  }
+
+  .scanner {
+    max-width: 100%;
+  }
 }

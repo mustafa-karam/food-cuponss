@@ -14,41 +14,31 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './user-qr.component.css'
 })
 export class UserQrComponent {
-  searchText:string = "";
+  searchText:any;
   users: any[] = []; // Will hold all users fetched from the backend
   filteredUsers: any[] = []; // Will hold users matching the search
   selectedUsers: any[] = []; // To store selected users for bulk processing
   qrCodesCreated : boolean = false;
 
   constructor(private http: HttpClient,private authService:AuthService,) {
-    // Fetch all users initially
-    this.authService.getEmployeeById(this.searchText as string).subscribe((data) => {
-      this.users = data.map(user =>({
-        ...user,
-        
-        "isSelected":false
-      }));
-      
-      this.filteredUsers = this.users;
-       // Initialize the filtered list
-    });
+    
   }
 
-  onSearch() {
-    if (!this.searchText) {
-      // If searchText is empty, reset the filtered list to all users
-      console.log(this.searchText);
-      this.filteredUsers = [...this.users];
+  onSearch() {  
+    if(this.searchText.toString().length >= 2 ){
 
+      this.authService.getEmployeeById(this.searchText as number).subscribe((data) => {
+        this.users = data.map(user =>({
+          ...user,
+          
+          "isSelected":false
+        }));
+        
+        this.filteredUsers = this.users;
+      });
+    } else{
+      this.filteredUsers = [];
     }
-    
-     else {
-      this.filteredUsers = this.users.filter((user) =>
-        user.employeeId.toString()
-      .includes(this.searchText)
-      );
-    }
-  //  console.log(this.selectedUsers);
   }
 
   isAnyUserSelected(): boolean {

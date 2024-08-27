@@ -58,6 +58,10 @@ table tr {
   background-color: #000000;
   color: #fff;
 }
+.table-preview table {
+  overflow: auto;
+  height: auto;
+}
 .preview-head {
   background-color: #c8a93d !important;
   margin-bottom: 5px;

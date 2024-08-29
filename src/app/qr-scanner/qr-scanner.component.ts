@@ -63,8 +63,8 @@ export class QrScannerComponent implements AfterViewInit {
     } else {
       this.showInvalidQrModal = true;
     }
-
     // Reset state for the next scan
+
     this.redeemedOrnot = false;
     this.serveMeal = false;
   }
@@ -90,11 +90,13 @@ export class QrScannerComponent implements AfterViewInit {
   }
 
   public onConfirm(): void {
-    this.serveMeal = true;
-
+    
     this.authService.SaveScanResult(this.scannedData.EmployeeId.toString()).subscribe((res: boolean) => {
       if (res === true) {
         this.redeemedOrnot = true;
+        this.serveMeal = true;
+      }else{
+        this.serveMeal = true;
       }
     });
 

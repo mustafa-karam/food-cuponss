@@ -1,8 +1,9 @@
 <div class="logo-container">
-  <img
+  <img src="../../assets/images/pharma.png" alt="EVA Pharma Logo" />
+  <!-- <img
     src="https://micrositesstorge.blob.core.windows.net/animalhealth/assets/Microsoft_Teams_image_1_b3be05013a.png"
     alt="EVA Pharma Logo"
-  />
+  /> -->
 </div>
 
 <div class="containers">
@@ -41,6 +42,13 @@
     <p><strong>ID:</strong> {{ scannedData.EmployeeId }}</p>
     <p><strong>Name:</strong> {{ scannedData.FullName }}</p>
     <button class="confirm-btn" (click)="onConfirm()">Confirm</button>
+    <button class="cancel-btn" (click)="onCancel()">Cancel</button>
+  </div>
+</div>
+<div id="confirmationModal" class="modal" *ngIf="showInvalidQrModal">
+  <div class="modal-content">
+    <span class="close" (click)="onCancel()">&times;</span>
+    <p><strong>Invalid Qr Code</strong></p>
     <button class="cancel-btn" (click)="onCancel()">Cancel</button>
   </div>
 </div>

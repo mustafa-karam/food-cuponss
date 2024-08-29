@@ -33,7 +33,8 @@ export class QrScannerComponent implements AfterViewInit {
   };
 
   public qrCodeResult: ScannerQRCodeSelectedFiles[] = [];
-  public showModal: boolean = false;
+  public showModal: boolean = false; //for confirmation modal
+  public showInvalidQrModal:boolean = false; // for Invalid QrCode modal
   public scannedData: any = {};
   public serveMeal : boolean = false;
   public redeemedOrnot : boolean = false;
@@ -61,32 +62,67 @@ export class QrScannerComponent implements AfterViewInit {
   public onEvent(e: ScannerQRCodeResult[], action?: any): void {
     e && action && action.pause();
     const employeeData = e[0].value;
-    this.scannedData = this.parseEmployeeData(employeeData); 
-    this.showModal = true; 
-  }
-  private parseEmployeeData(data:string):scannedUser{
-    const dataArray = data.split(',');
-    const parsedData :scannedUser = {
-      EmployeeId : dataArray[0].split(':')[1].trim(),
-      FullName: dataArray[1].split(':')[1].trim()
+    this.scannedData = this.parseEmployeeData(employeeData);     
+    if(this.isValidQrCode(this.scannedData)){  
+      this.showModal = true; 
+    }else{
+      this.showInvalidQrModal = true;
     }
-    return parsedData;
+    // console.log(this.showModal);   
+    // console.log(this.showInvalidQrModal);   
   }
+ 
+  // private parseEmployeeData(data:string):scannedUser{
+  //   const dataArray = data.split(',');
+  //   const parsedData :scannedUser = {
+  //     EmployeeId : dataArray[0].split(':')[1].trim(),
+  //     FullName: dataArray[1].split(':')[1].trim()
+  //   }
+   
+  //   return parsedData;
+  // }
+
+
+  private parseEmployeeData(data: string): scannedUser {
+    const parsedData: scannedUser = { EmployeeId: '', FullName: '' };
+    const dataArray = data.split(',');
+
+    dataArray.forEach(item => {
+        const [key, value] = item.split(':').map(str => str.trim());
+        if (key === 'EmployeeId') {
+            parsedData.EmployeeId = value;
+        } else if (key === 'FullName') {
+            parsedData.FullName = value;
+        }
+    });
+
+    return parsedData;
+}
+
+
+
+
+
+  private isValidQrCode(data: scannedUser): boolean {
+    return !!data.EmployeeId && !!data.FullName;
+}
+
 
   public onConfirm(): void {
     this.serveMeal = true;
 
 
-    console.log('Confirmed:', this.scannedData);
+    // console.log('Confirmed:', this.scannedData);
    
     this.authService.SaveScanResult(this.scannedData.EmployeeId.toString()).subscribe((res:boolean)=>{
-      console.log(this.redeemObj);
+      // console.log(this.redeemObj);
       
       if(res === true){
         this.redeemedOrnot = true;
-        console.log(this.redeemMessages.accept);
-      }else
-      console.log(this.redeemMessages.reject);
+        // console.log(this.redeemMessages.accept);
+      }
+      // else
+      // console.log(this.redeemMessages.reject);
 
     })
     this.showModal = false; 
@@ -96,7 +132,8 @@ export class QrScannerComponent implements AfterViewInit {
   public onCancel(): void {
     console.log('Cancelled');
     this.showModal = false;
-    this.serveMeal = false; 
+    this.serveMeal = false;
+    this.showInvalidQrModal = false; 
     this.action.play(); 
   }
 

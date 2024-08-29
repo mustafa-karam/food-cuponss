@@ -16,8 +16,9 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  staticUserName:string = "vitolo"; //static username
-  staticPasswod:string = "vito";   //static password
+  staticUserName:string = "admin"; //static username
+  staticPasswod:string = "123";   //static password
+  loginFailed: boolean = false; // flag to track login failure
 loginForm = this.fb.group({
   username:['',Validators.required],
   password:['',Validators.required]
@@ -35,8 +36,14 @@ get password(){
 }
 login(){
   const {username, password} = this.loginForm.value;
-  if(username === this.staticUserName && password === this.staticPasswod)
+  if(username === this.staticUserName && password === this.staticPasswod){
     this.router.navigate(['/search']);
+  }else{
+    this.loginFailed = true;
+  } 
+}
+onInputChange(){
+  this.loginFailed = false;
 }
 
 }

@@ -1,4 +1,4 @@
-<form
+<!-- <form
   class="d-flex justify-content-center pt-5"
   action=""
   [formGroup]="loginForm"
@@ -32,6 +32,7 @@
         class="w-full"
         name="passwrd"
         placeholder="type your password"
+        (input)="onInputChange()"
       />
       <small
         *ngIf="(password.invalid && username.dirty) || password.touched"
@@ -40,6 +41,70 @@
         <div *ngIf="username.errors?.['required']">Password is required</div>
       </small>
     </div>
+    <small *ngIf="loginFailed" class="block p-error">
+      Incorrect username or password.
+    </small>
+
     <p-button label="Login" styleClass="w-full" type="submit" />
   </p-card>
 </form>
+
+ -->
+
+<div
+  class="container d-flex flex-column justify-content-center align-items-center py-5"
+>
+  <div class="logo-container">
+    <img src="../../../assets/images/pharma.png" alt="eva pharma photo" />
+  </div>
+  <form
+    class="d-flex justify-content-center pt-5"
+    action=""
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+  >
+    <p-card header="Food cupon" [style]="{ width: '360px' }">
+      <div class="field">
+        <label for="username">username</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="username"
+          class="w-full"
+          name="username"
+          placeholder="type your username"
+        />
+        <small
+          *ngIf="(username.invalid && username.dirty) || username.touched"
+          class="block p-error"
+        >
+          <div *ngIf="username.errors?.['required']">username is required</div>
+          <div *ngIf="username.errors?.['username']">Invalid username</div>
+        </small>
+      </div>
+      <div class="field">
+        <label for="username">Password</label>
+        <input
+          type="password"
+          pInputText
+          formControlName="password"
+          class="w-full"
+          name="passwrd"
+          placeholder="type your password"
+          (input)="onInputChange()"
+        />
+        <small
+          *ngIf="(password.invalid && username.dirty) || password.touched"
+          class="block p-error"
+        >
+          <div *ngIf="username.errors?.['required']">Password is required</div>
+        </small>
+      </div>
+      <small *ngIf="loginFailed" class="block p-error">
+        Incorrect username or password.
+      </small>
+
+      <p-button label="Login" styleClass="w-full" type="submit" />
+    </p-card>
+  </form>
+</div>

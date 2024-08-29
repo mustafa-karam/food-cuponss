@@ -10,7 +10,9 @@
     <div class="col d-flex justify-content-center">
       <input
         class="search-bar px-5"
-        type="text"
+        type="number"
+        min="1"
+        (keydown)="preventInvalidInput($event)"
         placeholder="Search by staff ID"
         [(ngModel)]="searchText"
         (input)="onSearch()"

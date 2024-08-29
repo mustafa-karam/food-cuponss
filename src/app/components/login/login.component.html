@@ -63,48 +63,49 @@
     [formGroup]="loginForm"
     (ngSubmit)="login()"
   >
-    <p-card header="Food cupon" [style]="{ width: '360px' }">
+    <p-card header="Food Coupon" [style]="{ width: '360px' }">
       <div class="field">
-        <label for="username">username</label>
+        <label for="username">Username</label>
         <input
+          required="required"
           type="text"
           pInputText
           formControlName="username"
           class="w-full"
           name="username"
-          placeholder="type your username"
+          placeholder="Type your username"
         />
         <small
           *ngIf="(username.invalid && username.dirty) || username.touched"
           class="block p-error"
         >
-          <div *ngIf="username.errors?.['required']">username is required</div>
-          <div *ngIf="username.errors?.['username']">Invalid username</div>
+          <div *ngIf="username.errors?.['required']">Username is required</div>
         </small>
       </div>
       <div class="field">
-        <label for="username">Password</label>
+        <label for="password">Password</label>
         <input
+          required="required"
           type="password"
           pInputText
           formControlName="password"
           class="w-full"
-          name="passwrd"
-          placeholder="type your password"
+          name="password"
+          placeholder="Type your password"
           (input)="onInputChange()"
         />
         <small
-          *ngIf="(password.invalid && username.dirty) || password.touched"
+          *ngIf="(password.invalid && password.dirty) || password.touched"
           class="block p-error"
         >
-          <div *ngIf="username.errors?.['required']">Password is required</div>
+          <div *ngIf="password.errors?.['required']">Password is required</div>
         </small>
       </div>
       <small *ngIf="loginFailed" class="block p-error">
         Incorrect username or password.
       </small>
 
-      <p-button label="Login" styleClass="w-full" type="submit" />
+      <p-button label="Login" styleClass="w-full" type="submit"></p-button>
     </p-card>
   </form>
 </div>

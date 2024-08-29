@@ -24,7 +24,9 @@ export class UserQrComponent {
     
   }
 
-  onSearch() {  
+  onSearch() {
+    if(this.searchText == undefined) return;
+    
     if(this.searchText.toString().length >= 2 ){
 
       this.authService.getEmployeeById(this.searchText as number).subscribe((data) => {
@@ -40,6 +42,15 @@ export class UserQrComponent {
       this.filteredUsers = [];
     }
   }
+
+
+
+preventInvalidInput(event: KeyboardEvent): void {
+  if (['e', 'E', '+', '-'].includes(event.key)) {
+    event.preventDefault();
+  }
+}
+
 
   isAnyUserSelected(): boolean {
     return this.filteredUsers.some(user => user.isSelected);

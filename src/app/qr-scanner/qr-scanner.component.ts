@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, ViewChild} from '@angular/core';
 import { NgxScannerQrcodeModule} from 'ngx-scanner-qrcode';
 import {
@@ -19,10 +20,7 @@ import { RedeemCheck } from '../interfaces/redeemCheck';
   imports: [NgxScannerQrcodeModule,NgFor,NgIf],
   templateUrl: './qr-scanner.component.html',
   styleUrl: './qr-scanner.component.css'
-
 })
-
-
 export class QrScannerComponent implements AfterViewInit {
   public config: ScannerQRCodeConfig = {
     constraints: {
@@ -33,25 +31,22 @@ export class QrScannerComponent implements AfterViewInit {
   };
 
   public qrCodeResult: ScannerQRCodeSelectedFiles[] = [];
-  public showModal: boolean = false; //for confirmation modal
-  public showInvalidQrModal:boolean = false; // for Invalid QrCode modal
-  public scannedData: any = {};
-  public serveMeal : boolean = false;
-  public redeemedOrnot : boolean = false;
-  public redeemMessages :RedeemMessages ={
-    accept:"Happy meal",
-    reject:"Employee has already redeemed his meal."
-  }
-  public redeemObj:RedeemCheck={
-    employeeId:""
+  public showModal: boolean = false; // for confirmation modal
+  public showInvalidQrModal: boolean = false; // for Invalid QrCode modal
+  public scannedData: scannedUser = { EmployeeId: '', FullName: '' };
+  public serveMeal: boolean = false;
+  public redeemedOrnot: boolean = false;
+  public redeemMessages: RedeemMessages = {
+    accept: "Happy meal",
+    reject: "Employee has already redeemed his meal."
   };
-
-
-
+  public redeemObj: RedeemCheck = {
+    employeeId: ""
+  };
 
   @ViewChild('action') action!: NgxScannerQrcodeComponent;
 
-  constructor(private qrcode: NgxScannerQrcodeService,private authService:AuthService) { }
+  constructor(private qrcode: NgxScannerQrcodeService, private authService: AuthService) { }
 
   ngAfterViewInit(): void {
     this.action.isReady.subscribe((res: any) => {
@@ -63,78 +58,59 @@ export class QrScannerComponent implements AfterViewInit {
     e && action && action.pause();
     const employeeData = e[0].value;
     this.scannedData = this.parseEmployeeData(employeeData);     
-    if(this.isValidQrCode(this.scannedData)){  
+    if (this.isValidQrCode(this.scannedData)) {  
       this.showModal = true; 
-    }else{
+    } else {
       this.showInvalidQrModal = true;
     }
-    // console.log(this.showModal);   
-    // console.log(this.showInvalidQrModal);   
-  }
- 
-  // private parseEmployeeData(data:string):scannedUser{
-  //   const dataArray = data.split(',');
-  //   const parsedData :scannedUser = {
-  //     EmployeeId : dataArray[0].split(':')[1].trim(),
-  //     FullName: dataArray[1].split(':')[1].trim()
-  //   }
-   
-  //   return parsedData;
-  // }
 
+    // Reset state for the next scan
+    this.redeemedOrnot = false;
+    this.serveMeal = false;
+  }
 
   private parseEmployeeData(data: string): scannedUser {
     const parsedData: scannedUser = { EmployeeId: '', FullName: '' };
     const dataArray = data.split(',');
 
     dataArray.forEach(item => {
-        const [key, value] = item.split(':').map(str => str.trim());
-        if (key === 'EmployeeId') {
-            parsedData.EmployeeId = value;
-        } else if (key === 'FullName') {
-            parsedData.FullName = value;
-        }
+      const [key, value] = item.split(':').map(str => str.trim());
+      if (key === 'EmployeeId') {
+        parsedData.EmployeeId = value;
+      } else if (key === 'FullName') {
+        parsedData.FullName = value;
+      }
     });
 
     return parsedData;
-}
-
-
-
-
+  }
 
   private isValidQrCode(data: scannedUser): boolean {
     return !!data.EmployeeId && !!data.FullName;
-}
-
+  }
 
   public onConfirm(): void {
     this.serveMeal = true;
 
-
-    // console.log('Confirmed:', this.scannedData);
-   
-    this.authService.SaveScanResult(this.scannedData.EmployeeId.toString()).subscribe((res:boolean)=>{
-      // console.log(this.redeemObj);
-      
-      if(res === true){
+    this.authService.SaveScanResult(this.scannedData.EmployeeId.toString()).subscribe((res: boolean) => {
+      if (res === true) {
         this.redeemedOrnot = true;
-        // console.log(this.redeemMessages.accept);
       }
-      // else
-      // console.log(this.redeemMessages.reject);
+    });
 
-    })
     this.showModal = false; 
     this.action.play(); 
   }
 
   public onCancel(): void {
-    console.log('Cancelled');
     this.showModal = false;
     this.serveMeal = false;
     this.showInvalidQrModal = false; 
-    this.action.play(); 
+    this.action.play();
+
+    // Reset state for the next scan
+    this.scannedData = { EmployeeId: '', FullName: '' };
+    this.redeemedOrnot = false;
   }
 
   public handle(action: any, fn: string): void {
@@ -150,3 +126,6 @@ export class QrScannerComponent implements AfterViewInit {
     }
   }
 }
+
+
+

@@ -53,7 +53,7 @@ preventInvalidInput(event: KeyboardEvent): void {
 
 
   isAnyUserSelected(): boolean {
-    return this.filteredUsers.some(user => user.isSelected);
+    return this.selectedUsers.some(user => user.isSelected);
   }
   onCheckboxChange(user:User){
     if(user.isSelected){
@@ -67,8 +67,7 @@ preventInvalidInput(event: KeyboardEvent): void {
 
 
   generateQrCodes() {
-    const selectedUsers = this.filteredUsers.filter(user => user.isSelected);
-    const requests = selectedUsers.map(user => ({
+    const requests = this.selectedUsers.map(user => ({
       EmployeeId: user.employeeId.toString(),
       Ar_FullName: user.ar_Full_Name,
       Payload: `${user.employeeId}-${user.ar_Full_Name}`,

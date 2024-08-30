@@ -62,7 +62,7 @@ preventInvalidInput(event: KeyboardEvent): void {
       // Remove user from selectedUsers array if it's unchecked
       this.selectedUsers = this.selectedUsers.filter(selectedUser => selectedUser.employeeId !== user.employeeId);
     }
-    console.log(this.selectedUsers);
+    
   }
 
 
@@ -77,12 +77,21 @@ preventInvalidInput(event: KeyboardEvent): void {
     this.authService.generateQrCode(requests)
       .subscribe((response: any) => {
         console.log(response);
-        if(response){this.qrCodesCreated = true}
+        if(response){
+          this.qrCodesCreated = true;
+          
+        }
         response.qrCodes.forEach((qrCodeItem: any) => {
-          this.downloadQrCode(qrCodeItem.qrCode, qrCodeItem.employeeId);
-          console.log(qrCodeItem);
+          this.downloadQrCode(qrCodeItem.qrCode, qrCodeItem.employeeId);         
         });
       });
+     
+  }
+  onCancel(){
+    this.qrCodesCreated = false;
+    this.selectedUsers = [];
+          this.searchText="";
+          this.filteredUsers=[];
   }
 
   downloadQrCode(qrCodeBase64: string, employeeId: string) {
